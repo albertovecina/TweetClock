@@ -1,11 +1,10 @@
 package com.vsa.tweetclock.presentation;
 
-import com.squareup.otto.Subscribe;
+import android.util.Log;
+
 import com.twitter.sdk.android.core.AppSession;
+import com.vsa.tweetclock.domain.TweetTic;
 import com.vsa.tweetclock.presentation.event.BUS;
-import com.vsa.tweetclock.presentation.event.login.EventOnGuestLoginError;
-import com.vsa.tweetclock.presentation.event.login.EventOnGuestLoginSuccess;
-import com.vsa.tweetclock.presentation.event.search.EventTweetSearchSuccess;
 import com.vsa.tweetclock.presentation.interactor.TweetClockInteractor;
 import com.vsa.tweetclock.presentation.interactor.TweetClockInteractorImpl;
 import com.vsa.tweetclock.view.TweetClockView;
@@ -25,30 +24,18 @@ public class TweetClockPresenterImpl implements TweetClockPresenter {
 
     @Override
     public void onCreate() {
-        BUS.getInstance().register(this);
-        mInteractor.loginGuest();
+        mInteractor.loginGuest()
+                .flatMap(appSession -> mInteractor.searchTweet((mGuestSession = appSession), null))
+                .subscribe(tweetTics -> {
+                    for (TweetTic tweetTic : tweetTics)
+                        Log.d("PRUEBA", tweetTic.getText());
+                    Log.d("PRUEBA", "SESSION NULL = " + (mGuestSession == null));
+                });
     }
 
     @Override
     public void onDestroy() {
         BUS.getInstance().unregister(this);
-    }
-
-    @Subscribe
-    public void onGuestLoginSuccess(EventOnGuestLoginSuccess event) {
-        //TODO: START SEARCHING TWEETS
-        mGuestSession = event.getAppSession();
-        mInteractor.searchTweet(mGuestSession, null);
-    }
-
-    @Subscribe
-    public void onGuestLoginError(EventOnGuestLoginError event) {
-        mView.showLoginError();
-    }
-
-    @Subscribe
-    public void onTweetSearchSuccess(EventTweetSearchSuccess event) {
-        mView.showTweet(event.getTweet());
     }
 
 }
