@@ -14,8 +14,10 @@ public class TweetDataMapper {
 
     public TweetTic transform(Tweet tweet) {
         TweetTic tweetTic = new TweetTic(tweet.id);
+        tweetTic.setUser(tweet.user.screenName);
         tweetTic.setUserName(tweet.user.name);
         tweetTic.setProfileImageUrl(tweet.user.profileImageUrl);
+        tweetTic.setCreationDate(tweet.createdAt);
         tweetTic.setText(tweet.text);
         tweetTic.setRetweetCount(tweet.retweetCount);
         return tweetTic;

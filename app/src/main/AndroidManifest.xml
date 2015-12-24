@@ -22,7 +22,11 @@
         </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="78013495edca0d3bbe0f4b9b3ab6b45acb263733" />
+            android:value="78013495edca0d3bbe0f4b9b3ab6b45acb263733" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

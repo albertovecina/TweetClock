@@ -11,6 +11,18 @@ public interface TweetClockView {
 
     void showLoginError();
 
+    void setUser(String user);
+
+    void setUserName(String userName);
+
+    void setUserProfileImage(String imageUrl);
+
+    void setTweetCreationDate(String creationDate);
+
+    void setTweetText(String text);
+
+    void setRetweetCount(int count);
+
     void finish();
 
 }

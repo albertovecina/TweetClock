@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">TweetClock</string>
     <string name="action_settings">Settings</string>
+
+    /********** TWEET CLOCK ACTIVITY **********/
+    <string name="tweet_clock_user_name">\@%s</string>
+    <string name="tweet_clock_retweet_count">%d RETWEETS</string>
+
 </resources>

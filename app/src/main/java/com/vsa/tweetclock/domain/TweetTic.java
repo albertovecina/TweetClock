@@ -6,13 +6,31 @@ package com.vsa.tweetclock.domain;
 public class TweetTic {
 
     private long id;
+    private String user;
     private String userName;
     private String profileImageUrl;
+    private String creationDate;
     private String text;
     private int retweetCount;
 
     public TweetTic(long id) {
         this.id = id;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     public String getUserName() {
@@ -29,6 +47,14 @@ public class TweetTic {
 
     public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getText() {

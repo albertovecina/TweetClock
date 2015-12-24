@@ -27,6 +27,7 @@ public class TweetClockPresenterImpl implements TweetClockPresenter {
         mInteractor.loginGuest()
                 .flatMap(appSession -> mInteractor.searchTweet((mGuestSession = appSession), null))
                 .subscribe(tweetTics -> {
+                    setTweetTic(tweetTics.get(0));
                     for (TweetTic tweetTic : tweetTics)
                         Log.d("PRUEBA", tweetTic.getText());
                     Log.d("PRUEBA", "SESSION NULL = " + (mGuestSession == null));
@@ -36,6 +37,15 @@ public class TweetClockPresenterImpl implements TweetClockPresenter {
     @Override
     public void onDestroy() {
         BUS.getInstance().unregister(this);
+    }
+
+    private void setTweetTic(TweetTic tweetTic) {
+        mView.setUserProfileImage(tweetTic.getProfileImageUrl());
+        mView.setUser(tweetTic.getUser());
+        mView.setUserName(tweetTic.getUserName());
+        mView.setTweetCreationDate(tweetTic.getCreationDate());
+        mView.setTweetText(tweetTic.getText());
+        mView.setRetweetCount(tweetTic.getRetweetCount());
     }
 
 }
