@@ -9,7 +9,7 @@ public interface TweetClockView {
 
     void showTweet(Tweet tweet);
 
-    void showLoginError();
+    void showNoTweetsError();
 
     void setUser(String user);
 

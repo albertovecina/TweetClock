@@ -13,6 +13,11 @@ public class TweetTic {
     private String text;
     private int retweetCount;
 
+    public TweetTic() {
+        id = -1;
+        text = "prueba";
+    }
+
     public TweetTic(long id) {
         this.id = id;
     }

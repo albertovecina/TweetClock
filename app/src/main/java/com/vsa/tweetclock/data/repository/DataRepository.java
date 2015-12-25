@@ -5,11 +5,11 @@ import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
-import com.twitter.sdk.android.core.models.Search;
 import com.vsa.tweetclock.data.mapper.TweetDataMapper;
 import com.vsa.tweetclock.data.twitter.TweetClockApiClient;
 import com.vsa.tweetclock.domain.TweetTic;
 
+import java.util.Date;
 import java.util.List;
 
 import rx.Observable;
@@ -69,6 +69,10 @@ public class DataRepository {
                 .map(search -> mTweetDataMapper.transform(search.tweets))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Date getCurrentDate() {
+        return new Date();
     }
 
 }

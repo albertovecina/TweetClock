@@ -1,20 +1,19 @@
 package com.vsa.tweetclock.presentation;
 
-import android.util.Log;
-
-import com.twitter.sdk.android.core.AppSession;
 import com.vsa.tweetclock.domain.TweetTic;
+import com.vsa.tweetclock.domain.interactor.TweetClockInteractor;
+import com.vsa.tweetclock.domain.interactor.TweetClockInteractorImpl;
 import com.vsa.tweetclock.presentation.event.BUS;
-import com.vsa.tweetclock.presentation.interactor.TweetClockInteractor;
-import com.vsa.tweetclock.presentation.interactor.TweetClockInteractorImpl;
 import com.vsa.tweetclock.view.TweetClockView;
+
+import rx.Observer;
+import rx.functions.Action1;
 
 /**
  * Created by albertovecinasanchez on 21/12/15.
  */
-public class TweetClockPresenterImpl implements TweetClockPresenter {
+public class TweetClockPresenterImpl implements TweetClockPresenter, Observer<TweetTic> {
 
-    private AppSession mGuestSession;
     private TweetClockInteractor mInteractor = new TweetClockInteractorImpl();
     private TweetClockView mView;
 
@@ -25,13 +24,7 @@ public class TweetClockPresenterImpl implements TweetClockPresenter {
     @Override
     public void onCreate() {
         mInteractor.loginGuest()
-                .flatMap(appSession -> mInteractor.searchTweet((mGuestSession = appSession), null))
-                .subscribe(tweetTics -> {
-                    setTweetTic(tweetTics.get(0));
-                    for (TweetTic tweetTic : tweetTics)
-                        Log.d("PRUEBA", tweetTic.getText());
-                    Log.d("PRUEBA", "SESSION NULL = " + (mGuestSession == null));
-                });
+                .flatMap(appSession -> mInteractor.searchTimeTweet(appSession)).subscribe(this);
     }
 
     @Override
@@ -48,4 +41,21 @@ public class TweetClockPresenterImpl implements TweetClockPresenter {
         mView.setRetweetCount(tweetTic.getRetweetCount());
     }
 
+    @Override
+    public void onCompleted() {
+
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        mView.showNoTweetsError();
+    }
+
+    @Override
+    public void onNext(TweetTic tweetTic) {
+        if (tweetTic == null)
+            mView.showNoTweetsError();
+        else
+            setTweetTic(tweetTic);
+    }
 }

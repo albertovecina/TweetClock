@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.core.models.Tweet;
@@ -58,8 +59,9 @@ public class TweetClockActivity extends AppCompatActivity implements TweetClockV
     }
 
     @Override
-    public void showLoginError() {
+    public void showNoTweetsError() {
         //TODO
+        Toast.makeText(this, "There is no tweet", Toast.LENGTH_SHORT).show();
     }
 
     @Override
