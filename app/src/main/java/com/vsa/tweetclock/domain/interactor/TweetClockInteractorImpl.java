@@ -3,8 +3,8 @@ package com.vsa.tweetclock.domain.interactor;
 import android.util.Log;
 
 import com.twitter.sdk.android.core.AppSession;
-import com.vsa.tweetclock.data.repository.DataRepository;
 import com.vsa.tweetclock.domain.TweetTic;
+import com.vsa.tweetclock.domain.repository.Repository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +25,11 @@ public class TweetClockInteractorImpl implements TweetClockInteractor {
     private static final String TIME_PATTERN_12_H_A = "hh:mm a";
 
     private SimpleDateFormat mDateFormat = new SimpleDateFormat(TIME_PATTERN_24_H, Locale.US);
-    private DataRepository mRepository = DataRepository.getInstance();
+    private Repository mRepository;
+
+    public TweetClockInteractorImpl(Repository repository) {
+        mRepository = repository;
+    }
 
     @Override
     public Observable<AppSession> loginGuest() {

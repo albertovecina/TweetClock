@@ -11,7 +11,7 @@ import java.util.Locale;
 public class TweetTic {
 
     private static final String TWITTER_DATE_PATTERN = "EEE MMM dd HH:mm:ss Z yyyy"; //Fri Dec 25 17:05:36 +0000 2015
-    private static final SimpleDateFormat TWITTER_DATE_FORMATTER = new SimpleDateFormat(TWITTER_DATE_PATTERN, Locale.ENGLISH);
+    private static final SimpleDateFormat TWITTER_DATE_FORMATTER = new SimpleDateFormat(TWITTER_DATE_PATTERN, Locale.US);
 
     private long id;
     private String user;

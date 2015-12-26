@@ -1,7 +1,6 @@
 package com.vsa.tweetclock.view.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,14 +10,19 @@ import com.squareup.picasso.Picasso;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.tweetui.TweetView;
 import com.vsa.tweetclock.R;
+import com.vsa.tweetclock.modules.TweetClockPresenterModule;
 import com.vsa.tweetclock.presentation.TweetClockPresenter;
-import com.vsa.tweetclock.presentation.TweetClockPresenterImpl;
 import com.vsa.tweetclock.view.TweetClockView;
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class TweetClockActivity extends AppCompatActivity implements TweetClockView {
+public class TweetClockActivity extends BaseActivity implements TweetClockView {
 
     @Bind(R.id.wrapper_tweet)
     ViewGroup mWrapperTweet;
@@ -35,7 +39,8 @@ public class TweetClockActivity extends AppCompatActivity implements TweetClockV
     @Bind(R.id.txt_retweet_count)
     TextView mTextViewRetweetCount;
 
-    private TweetClockPresenter mPresenter = new TweetClockPresenterImpl(this);
+    @Inject
+    TweetClockPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,11 @@ public class TweetClockActivity extends AppCompatActivity implements TweetClockV
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.onDestroy();
+    }
+
+    @Override
+    protected List<Object> getModules() {
+        return Arrays.asList(new TweetClockPresenterModule(this));
     }
 
     @Override

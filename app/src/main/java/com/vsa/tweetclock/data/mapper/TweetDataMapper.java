@@ -12,7 +12,13 @@ import java.util.List;
  */
 public class TweetDataMapper {
 
-    public TweetTic transform(Tweet tweet) {
+    /**
+     * Transform a {@link Tweet} into a {@link TweetTic}
+     *
+     * @param tweet Object to be transformed
+     * @return Transformed {@link TweetTic} object
+     */
+    public static TweetTic transform(Tweet tweet) {
         TweetTic tweetTic = new TweetTic(tweet.id);
         tweetTic.setUser(tweet.user.screenName);
         tweetTic.setUserName(tweet.user.name);
@@ -23,7 +29,13 @@ public class TweetDataMapper {
         return tweetTic;
     }
 
-    public List<TweetTic> transform(Collection<Tweet> tweets) {
+    /**
+     * Transform a {@link Tweet} Collection into a {@link TweetTic} List
+     *
+     * @param tweets Collection to be transformed
+     * @return Transformed {@link TweetTic} List
+     */
+    public static List<TweetTic> transform(Collection<Tweet> tweets) {
         List<TweetTic> tweetTicList = new ArrayList<>();
         for (Tweet tweet : tweets)
             tweetTicList.add(transform(tweet));

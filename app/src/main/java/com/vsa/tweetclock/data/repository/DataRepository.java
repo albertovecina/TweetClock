@@ -8,6 +8,7 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.vsa.tweetclock.data.mapper.TweetDataMapper;
 import com.vsa.tweetclock.data.twitter.TweetClockApiClient;
 import com.vsa.tweetclock.domain.TweetTic;
+import com.vsa.tweetclock.domain.repository.Repository;
 
 import java.util.Date;
 import java.util.List;
@@ -20,21 +21,9 @@ import rx.schedulers.Schedulers;
 /**
  * Created by albertovecinasanchez on 21/12/15.
  */
-public class DataRepository {
+public class DataRepository implements Repository {
 
-    private static DataRepository sRepository;
-
-    private TweetDataMapper mTweetDataMapper = new TweetDataMapper();
-
-    private DataRepository() {
-    }
-
-    public static DataRepository getInstance() {
-        if (sRepository == null)
-            sRepository = new DataRepository();
-        return sRepository;
-    }
-
+    @Override
     public Observable<AppSession> doGuestLogin() {
         return Observable.create(new Observable.OnSubscribe<AppSession>() {
             @Override
@@ -61,15 +50,17 @@ public class DataRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Observable<List<TweetTic>> searchTweet(AppSession session, String query) {
         TweetClockApiClient twitterApiClient = new TweetClockApiClient(session);
-        return twitterApiClient.getCustomService().tweets(query,
+        return twitterApiClient.getCustomSearchService().tweets(query,
                 null, null, null, null, 50, null, null, null, true)
-                .map(search -> mTweetDataMapper.transform(search.tweets))
+                .map(search -> TweetDataMapper.transform(search.tweets))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Override
     public Date getCurrentDate() {
         return new Date();
     }

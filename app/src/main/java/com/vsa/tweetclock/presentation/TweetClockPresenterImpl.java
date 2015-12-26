@@ -18,11 +18,12 @@ import rx.Observer;
  */
 public class TweetClockPresenterImpl implements TweetClockPresenter, Observer<TweetTic> {
 
-    private TweetClockInteractor mInteractor = new TweetClockInteractorImpl();
+    private TweetClockInteractor mInteractor;
     private TweetClockView mView;
 
-    public TweetClockPresenterImpl(TweetClockView tweetClockView) {
+    public TweetClockPresenterImpl(TweetClockView tweetClockView, TweetClockInteractor tweetClockInteractor) {
         mView = tweetClockView;
+        mInteractor = tweetClockInteractor;
     }
 
     @Override
