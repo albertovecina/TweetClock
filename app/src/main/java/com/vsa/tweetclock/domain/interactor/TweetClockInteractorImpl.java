@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import rx.Observable;
 
@@ -23,7 +24,7 @@ public class TweetClockInteractorImpl implements TweetClockInteractor {
     private static final String TIME_PATTERN_12_H = "hh:mm";
     private static final String TIME_PATTERN_12_H_A = "hh:mm a";
 
-    private SimpleDateFormat mDateFormat = new SimpleDateFormat();
+    private SimpleDateFormat mDateFormat = new SimpleDateFormat(TIME_PATTERN_24_H, Locale.US);
     private DataRepository mRepository = DataRepository.getInstance();
 
     @Override
@@ -71,7 +72,12 @@ public class TweetClockInteractorImpl implements TweetClockInteractor {
         results.addAll(pattern6);
         if (results.isEmpty())
             results = pattern7;
-        Collections.sort(results, (lhs, rhs) -> rhs.getRetweetCount() - lhs.getRetweetCount());
+        Collections.sort(results, (lhs, rhs) -> {
+            int ret = rhs.getRetweetCount() - lhs.getRetweetCount();
+            if (ret == 0)
+                return lhs.getCreationJavaDate().compareTo(rhs.getCreationJavaDate());
+            return ret;
+        });
         for (TweetTic tt : results)
             Log.d("PRUEBA", "MESSAGE: " + tt.getText());
         if (results.size() > 0)

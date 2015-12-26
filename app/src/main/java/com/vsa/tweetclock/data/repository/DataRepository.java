@@ -49,8 +49,7 @@ public class DataRepository {
 
                         @Override
                         public void failure(TwitterException e) {
-                            subscriber.onNext(null);
-                            subscriber.onCompleted();
+                            subscriber.onError(e);
                         }
                     });
 

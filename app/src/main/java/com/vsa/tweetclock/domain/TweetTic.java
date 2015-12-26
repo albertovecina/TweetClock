@@ -1,9 +1,17 @@
 package com.vsa.tweetclock.domain;
 
+import java.text.ParseException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 /**
  * Created by albertovecinasanchez on 23/12/15.
  */
 public class TweetTic {
+
+    private static final String TWITTER_DATE_PATTERN = "EEE MMM dd HH:mm:ss Z yyyy"; //Fri Dec 25 17:05:36 +0000 2015
+    private static final SimpleDateFormat TWITTER_DATE_FORMATTER = new SimpleDateFormat(TWITTER_DATE_PATTERN, Locale.ENGLISH);
 
     private long id;
     private String user;
@@ -56,6 +64,15 @@ public class TweetTic {
 
     public String getCreationDate() {
         return creationDate;
+    }
+
+    public Date getCreationJavaDate() {
+        try {
+            return TWITTER_DATE_FORMATTER.parse(creationDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void setCreationDate(String creationDate) {
