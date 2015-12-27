@@ -10,6 +10,9 @@ import java.util.Locale;
  */
 public class TweetTic {
 
+    private static final long EMPTY_TWEET_ID = -1;
+    private static final String EMPTY_TWEET_TEXT = "";
+
     private static final String TWITTER_DATE_PATTERN = "EEE MMM dd HH:mm:ss Z yyyy"; //Fri Dec 25 17:05:36 +0000 2015
     private static final SimpleDateFormat TWITTER_DATE_FORMATTER = new SimpleDateFormat(TWITTER_DATE_PATTERN, Locale.US);
 
@@ -22,8 +25,8 @@ public class TweetTic {
     private int retweetCount;
 
     public TweetTic() {
-        id = -1;
-        text = "prueba";
+        id = EMPTY_TWEET_ID;
+        text = EMPTY_TWEET_TEXT;
     }
 
     public TweetTic(long id) {

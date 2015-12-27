@@ -1,11 +1,7 @@
 package com.vsa.tweetclock.presentation;
 
-import android.util.Log;
-
 import com.vsa.tweetclock.domain.TweetTic;
 import com.vsa.tweetclock.domain.interactor.TweetClockInteractor;
-import com.vsa.tweetclock.domain.interactor.TweetClockInteractorImpl;
-import com.vsa.tweetclock.presentation.event.BUS;
 import com.vsa.tweetclock.view.TweetClockView;
 
 import java.util.concurrent.TimeUnit;
@@ -41,7 +37,6 @@ public class TweetClockPresenterImpl implements TweetClockPresenter, Observer<Tw
 
     @Override
     public void onDestroy() {
-        BUS.getInstance().unregister(this);
     }
 
     private void setTweetTic(TweetTic tweetTic) {
