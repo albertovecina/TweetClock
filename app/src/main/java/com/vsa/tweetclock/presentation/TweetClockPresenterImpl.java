@@ -4,6 +4,8 @@ import com.vsa.tweetclock.domain.TweetTic;
 import com.vsa.tweetclock.domain.interactor.TweetClockInteractor;
 import com.vsa.tweetclock.view.TweetClockView;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -13,6 +15,9 @@ import rx.Observer;
  * Created by albertovecinasanchez on 21/12/15.
  */
 public class TweetClockPresenterImpl implements TweetClockPresenter, Observer<TweetTic> {
+
+    private SimpleDateFormat mTweetClockDateFormat = new SimpleDateFormat("h:mm a '-' dd MMM yyyy",
+            Locale.US);
 
     private TweetClockInteractor mInteractor;
     private TweetClockView mView;
@@ -24,11 +29,15 @@ public class TweetClockPresenterImpl implements TweetClockPresenter, Observer<Tw
 
     @Override
     public void onCreate() {
+        mView.showProgress();
         mInteractor.loginGuest()
                 .flatMap(appSession ->
                         Observable.merge(
+                                //INITIAL SEARCH
                                 mInteractor.searchTimeTweet(appSession),
-                                Observable.interval(mInteractor.getTimeForNextTicInSeconds(), 60, TimeUnit.SECONDS)
+                                //SEARCH EACH MINUTE
+                                Observable.interval(mInteractor.getTimeForNextTicInSeconds(), 60,
+                                        TimeUnit.SECONDS)
                                         .flatMap(n -> mInteractor.searchTimeTweet(appSession)))
 
                 )
@@ -39,11 +48,12 @@ public class TweetClockPresenterImpl implements TweetClockPresenter, Observer<Tw
     public void onDestroy() {
     }
 
-    private void setTweetTic(TweetTic tweetTic) {
+    private void showTweetTic(TweetTic tweetTic) {
+        mView.hideProgress();
         mView.setUserProfileImage(tweetTic.getProfileImageUrl());
         mView.setUser(tweetTic.getUser());
         mView.setUserName(tweetTic.getUserName());
-        mView.setTweetCreationDate(tweetTic.getCreationDate());
+        mView.setTweetCreationDate(mTweetClockDateFormat.format(tweetTic.getCreationJavaDate()));
         mView.setTweetText(tweetTic.getText());
         mView.setRetweetCount(tweetTic.getRetweetCount());
     }
@@ -63,6 +73,6 @@ public class TweetClockPresenterImpl implements TweetClockPresenter, Observer<Tw
         if (tweetTic == null)
             mView.showNoTweetsError();
         else
-            setTweetTic(tweetTic);
+            showTweetTic(tweetTic);
     }
 }

@@ -1,14 +1,13 @@
 package com.vsa.tweetclock.view.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
-import com.twitter.sdk.android.core.models.Tweet;
-import com.twitter.sdk.android.tweetui.TweetView;
 import com.vsa.tweetclock.R;
 import com.vsa.tweetclock.modules.TweetClockPresenterModule;
 import com.vsa.tweetclock.presentation.TweetClockPresenter;
@@ -24,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class TweetClockActivity extends BaseActivity implements TweetClockView {
 
-    @Bind(R.id.wrapper_tweet)
+    @Bind(R.id.card_view_tweet)
     ViewGroup mWrapperTweet;
     @Bind(R.id.img_twitter_profile_image)
     ImageView mImageViewUserProfileImage;
@@ -62,10 +61,13 @@ public class TweetClockActivity extends BaseActivity implements TweetClockView {
     }
 
     @Override
-    public void showTweet(Tweet tweet) {
-        mWrapperTweet.removeAllViews();
-        TweetView tweetView = new TweetView(this, tweet);
-        mWrapperTweet.addView(tweetView);
+    public void showProgress() {
+        mWrapperTweet.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        mWrapperTweet.setVisibility(View.VISIBLE);
     }
 
     @Override

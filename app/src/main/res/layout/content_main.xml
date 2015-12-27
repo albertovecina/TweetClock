@@ -13,8 +13,14 @@
     tools:context=".view.activity.TweetClockActivity"
     tools:showIn="@layout/activity_main">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
     <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/card_view_tweet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -29,7 +35,6 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/wrapper_tweet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -58,8 +63,8 @@
                         android:id="@+id/txt_tweet_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
                         android:textSize="12sp"
+                        android:textStyle="bold"
                         tools:text="\@AlbertoVecina" />
                 </LinearLayout>
 
