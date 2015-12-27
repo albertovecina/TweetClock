@@ -86,6 +86,10 @@ public class TweetClockInteractorImpl implements TweetClockInteractor {
                 (this::pickTweet));
     }
 
+    /**
+     * Provides the time remaining for the next minute in seconds
+     * @return
+     */
     @Override
     public int getTimeForNextTicInSeconds() {
         int seconds = Calendar.getInstance().get(Calendar.SECOND);
