@@ -1,13 +1,12 @@
 package com.vsa.tweetclock.domain.interactor;
 
-import android.util.Log;
-
 import com.twitter.sdk.android.core.AppSession;
 import com.vsa.tweetclock.domain.TweetTic;
 import com.vsa.tweetclock.domain.repository.Repository;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -63,6 +62,12 @@ public class TweetClockInteractorImpl implements TweetClockInteractor {
                 (this::manageResults));
     }
 
+    @Override
+    public int getTimeForNextTicInSeconds() {
+        int seconds = Calendar.getInstance().get(Calendar.SECOND);
+        return 60 - seconds;
+    }
+
     private TweetTic manageResults(List<TweetTic> pattern1, List<TweetTic> pattern2,
                                    List<TweetTic> pattern3, List<TweetTic> pattern4,
                                    List<TweetTic> pattern5, List<TweetTic> pattern6,
@@ -82,8 +87,6 @@ public class TweetClockInteractorImpl implements TweetClockInteractor {
                 return lhs.getCreationJavaDate().compareTo(rhs.getCreationJavaDate());
             return ret;
         });
-        for (TweetTic tt : results)
-            Log.d("PRUEBA", "MESSAGE: " + tt.getText());
         if (results.size() > 0)
             return results.get(0);
         else

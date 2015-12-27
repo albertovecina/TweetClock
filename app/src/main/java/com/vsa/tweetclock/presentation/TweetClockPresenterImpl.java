@@ -30,8 +30,12 @@ public class TweetClockPresenterImpl implements TweetClockPresenter, Observer<Tw
     public void onCreate() {
         mInteractor.loginGuest()
                 .flatMap(appSession ->
-                        Observable.interval(0, 60, TimeUnit.SECONDS)
-                                .flatMap(n -> mInteractor.searchTimeTweet(appSession)))
+                        Observable.merge(
+                                mInteractor.searchTimeTweet(appSession),
+                                Observable.interval(mInteractor.getTimeForNextTicInSeconds(), 60, TimeUnit.SECONDS)
+                                        .flatMap(n -> mInteractor.searchTimeTweet(appSession)))
+
+                )
                 .subscribe(this);
     }
 
@@ -61,7 +65,6 @@ public class TweetClockPresenterImpl implements TweetClockPresenter, Observer<Tw
 
     @Override
     public void onNext(TweetTic tweetTic) {
-        Log.d("TAG", "REQUEST");
         if (tweetTic == null)
             mView.showNoTweetsError();
         else

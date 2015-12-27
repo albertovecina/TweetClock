@@ -14,4 +14,6 @@ public interface TweetClockInteractor {
 
     Observable<TweetTic> searchTimeTweet(AppSession session);
 
+    int getTimeForNextTicInSeconds();
+
 }
